@@ -16,14 +16,21 @@
       <AuthInput
         class="username"
         placeholder="手机号码"
-        :rule="/^1[0-9]{4}$/"
+        :rule="/^1[0-9]{3,10}$/"
         v-model="form.username"
         @input="handleusername"
         errormessage="您输入的手机格式有误，请重新输入！"
        
       ></AuthInput>
+      <!-- 昵称输入框组件组件 -->
+       <AuthInput
+        placeholder="昵称"
+        :rule="/^[0-9,a-z,A-Z,\u4e00-\u9fa5]{3,8}$/"
+        v-model="form.nickname"
+        @input="handleusername"
+        errormessage="您输入的昵称格式有误，请重新输入！"
+      ></AuthInput>
       <AuthInput
-        
         placeholder="密码"
         :rule="/^[0-9,a-z,A-Z]{3,8}$/"
         v-model="form.password"
@@ -31,11 +38,10 @@
         errormessage="您输入的密码格式有误，请重新输入！"
       ></AuthInput>
       <!-- 提示 -->
-      <p class="tip">没有账号？<router-link to="/register" class="tips">去注册</router-link></p>
+      <p class="tip">有账号？<router-link to="/login" class="tips">去登录</router-link></p>
       <!-- //登录按钮 -->
-      <AuthButton text="登录" @click="handlesubmit"></AuthButton>
+      <AuthButton text="注册" @click="handlesubmit"></AuthButton>
     </div>
-    
   </div>
 </template>
 <script>
@@ -48,7 +54,8 @@ export default {
     return {
       form: {
         username: "",
-        password: ""
+        password: "",
+        nickname:'',
       }
     };
   },
@@ -59,13 +66,15 @@ export default {
     },
     handlesubmit() {
       this.$axios({
-        url: "/login",
+        url: "/register",
         method: "POST",
         data: this.form
       }).then(res => {
-        if(res.data.message==='登录成功'){
-           //跳转到下一页，也就是跳转到首页
-           this.$router.push('/')
+          console.log(res)
+        if(res.data.message==='注册成功'){
+            this.$toast.fail('注册成功！')
+           //跳转到下一页，也就是跳转到注册页
+           this.$router.push('/login')
         }
       });
     }
@@ -84,10 +93,10 @@ export default {
   padding-left: 20px;
   padding-right: 20px;
 
-  // .username {
-  //   margin-top: 30px;
-  //   margin-bottom: 50px;
-  // }
+//   .username {
+//     margin-top: 30px;
+//     margin-bottom: 50px;
+//   }
   .close {
     padding: 20px;
     span {
