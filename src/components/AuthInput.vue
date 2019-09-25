@@ -1,16 +1,14 @@
 <template>
   <input
     class="input"
-    :value='value'
+    :value="value"
     :placeholder="placeholder"
     @input="handleInput"
     :class="{
       success:status==='success',
       error:status==='error'
-      
   }"
     @change="handlechange"
-
   />
 </template>
 
@@ -21,7 +19,7 @@ export default {
       status: ""
     };
   },
-  props: ["placeholder", "rule", "value", "name", "errormessage"],
+  props: ["placeholder", "rule", "name", "errormessage", "value"],
   methods: {
     handleInput(event) {
       var value = event.target.value;
@@ -51,7 +49,7 @@ export default {
   background: #fff;
   border: none;
   border: 2px #666 solid;
-  margin-top: 30px
+  margin-top: 30px;
 }
 .success {
   border: 2px solid green;

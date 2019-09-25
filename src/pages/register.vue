@@ -73,7 +73,7 @@ export default {
           console.log(res)
         if(res.data.message==='注册成功'){
             this.$toast.fail('注册成功！')
-           //跳转到下一页，也就是跳转到注册页
+           //跳转到下一页，也就是跳转到登录页
            this.$router.push('/login')
         }
       });

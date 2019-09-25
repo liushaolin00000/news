@@ -14,16 +14,15 @@
     <!-- 用户名密码输入框 -->
     <div>
       <AuthInput
+        value="你好"
         class="username"
         placeholder="手机号码"
-        :rule="/^1[0-9]{4}$/"
+        :rule="/^1[0-9]{4,11}$/"
         v-model="form.username"
         @input="handleusername"
         errormessage="您输入的手机格式有误，请重新输入！"
-       
       ></AuthInput>
       <AuthInput
-        
         placeholder="密码"
         :rule="/^[0-9,a-z,A-Z]{3,8}$/"
         v-model="form.password"
@@ -31,11 +30,13 @@
         errormessage="您输入的密码格式有误，请重新输入！"
       ></AuthInput>
       <!-- 提示 -->
-      <p class="tip">没有账号？<router-link to="/register" class="tips">去注册</router-link></p>
+      <p class="tip">
+        没有账号？
+        <router-link to="/register" class="tips">去注册</router-link>
+      </p>
       <!-- //登录按钮 -->
       <AuthButton text="登录" @click="handlesubmit"></AuthButton>
     </div>
-    
   </div>
 </template>
 <script>
@@ -44,6 +45,7 @@ import AuthInput from "@/components/AuthInput";
 //2.引入按钮组件
 import AuthButton from "@/components/AuthButton";
 export default {
+  //这里等同于组件实例对象
   data() {
     return {
       form: {
@@ -63,9 +65,14 @@ export default {
         method: "POST",
         data: this.form
       }).then(res => {
-        if(res.data.message==='登录成功'){
-           //跳转到下一页，也就是跳转到首页
-           this.$router.push('/')
+        if (res.data.message === "登录成功") {
+          //提取后台响应过来的数据
+          const { message, data } = res.data;
+          //把token和id保存到本地
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("user_id", data.user.id);
+          //跳转到下一页，也就是跳转到首页
+          this.$router.push("/personal");
         }
       });
     }
@@ -77,9 +84,10 @@ export default {
     AuthButton
   }
 };
-</script>>
+</script>
 <style lang="less" scoped>
 // lang声明样式的类型
+//scoped为避免不同组件之间变量名重复造成的覆盖
 .content {
   padding-left: 20px;
   padding-right: 20px;
@@ -103,11 +111,11 @@ export default {
       color: #d81e06;
     }
   }
-  .tip{
+  .tip {
     float: right;
     margin-top: 10px;
-   .tips{
-       color: blue;
+    .tips {
+      color: blue;
     }
   }
 }

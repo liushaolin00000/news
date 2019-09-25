@@ -4,6 +4,8 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 //引入自动生成引入文件
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 // 导入清除插件
+//引入复制包
+const CopyPlugin = require("copy-webpack-plugin");
 const {
     CleanWebpackPlugin
 } = require('clean-webpack-plugin');
@@ -79,7 +81,11 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "public/index.html" // template指定默认html模板
         }),
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        //创建复制包实例对象 指定文件的来源和保存的地方
+        new CopyPlugin([
+            { from: 'static', to: 'static' },
+        ]),
     ],
     // + 提取公共模块配置
     optimization: {
