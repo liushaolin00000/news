@@ -43,6 +43,8 @@ import EditPersonal from '@/pages/editPersonal.vue'
 import UserFollow from '@/pages/userFollow.vue'
 //5.导入我的跟帖的组件
 import Followup from '@/pages/followup.vue'
+//5.导入头条主页面的组件
+import Index from '@/pages/index.vue'
 
 //2.创建路由配置
 const routes = [
@@ -77,6 +79,11 @@ const routes = [
       {
         path:'/followup',
         component: Followup
+    },
+     //将头条主页面组件和路由关联起来
+     {
+        path:'/',
+        component: Index
     },
 ]
 //3.创建对象
