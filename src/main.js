@@ -8,8 +8,11 @@ import {
 } from 'vant'
 //引入vant组件库下文件上传的组件
 import { Uploader } from 'vant';
+//引入vant组件库下的弹出框组件
+import { Dialog } from 'vant';
 //引入axios文件库 引入请求库
 import axios from "axios";
+
 
 import App from './App.vue'
 //引入路由插件
@@ -22,6 +25,8 @@ Vue.use(Router)
 Vue.use(Vant);
 //注册文件上传的组件
 Vue.use(Uploader);
+// //注册弹出框组件
+Vue.use(Dialog);
 // 绑定到原型
 Vue.prototype.$axios = axios;
 //基准路径，每次请求后台数据都会自动加上
@@ -34,6 +39,10 @@ import Register from '@/pages/register.vue'
 import Personal from '@/pages/Personal.vue'
 //4.导入编辑用户信息的组件
 import EditPersonal from '@/pages/editPersonal.vue'
+//5.导入我的关注的组件
+import UserFollow from '@/pages/userFollow.vue'
+//5.导入我的跟帖的组件
+import Followup from '@/pages/followup.vue'
 
 //2.创建路由配置
 const routes = [
@@ -58,6 +67,16 @@ const routes = [
     {
         path:'/editPersonal',
         component:EditPersonal
+    },
+     //将我的关注的组件和路由关联起来
+     {
+        path:'/userFollow',
+        component:UserFollow
+    },
+      //将我的跟帖组件和路由关联起来
+      {
+        path:'/followup',
+        component: Followup
     },
 ]
 //3.创建对象
@@ -97,7 +116,7 @@ axios.interceptors.response.use(res => {
     if (message === "用户信息验证失败") {
         //团转到登录页面
         router.push('/login');
-        Toast.fail('用户名密码失效请重新登录页面')
+        Toast.fail(message)
     }
     return res
 }, function (err) {

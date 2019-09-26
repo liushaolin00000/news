@@ -1,13 +1,14 @@
 <template>
   <div class="head">
     <span class="iconfont iconjiantou2" @click="handleBack"></span>
-    <strong>编辑资料</strong>
+    <strong>{{text}}</strong>
     <span>></span>
   </div>
 </template>
 
 <script>
 export default {
+    props:['text'],
     methods:{
         handleBack(){
            this.$router.back()
@@ -21,6 +22,7 @@ export default {
     display:flex;
     justify-content: space-between;
     flex:1;
+    padding: 20px;
     span:last-child{
         opacity: 0;
     }   

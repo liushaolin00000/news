@@ -14,8 +14,12 @@
       <span class="iconfont iconjiantou1 youjiantou"></span>
     </div>
     <div class="body">
+   <router-link to="/userfollow">
       <Authcellbar lebal="我的关注" text="关注的用户"></Authcellbar>
+   </router-link>
+   <router-link to="/followup">
       <Authcellbar lebal="我的跟帖" text="跟帖/回复"></Authcellbar>
+   </router-link>
       <Authcellbar lebal="我的收藏" text="文章/视频"></Authcellbar>
       <Authcellbar lebal="退出" @click="handleLogout"></Authcellbar>
     </div>
@@ -44,9 +48,9 @@ export default {
     
     handleEdit(){
       //点击用户头像栏向后台发送请求获取数据
-      this.$axios({
-          url:'/editPersonal',
-      })
+      // this.$axios({
+      //     url:'/editPersonal',
+      // })
       //点击用户头像那一栏时跳转到编辑用户资料页面
        this.$router.push('./editPersonal')
     }

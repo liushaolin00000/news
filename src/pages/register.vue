@@ -86,7 +86,7 @@ export default {
     AuthButton
   }
 };
-</script>>
+</script>
 <style lang="less" scoped>
 // lang声明样式的类型
 .content {
