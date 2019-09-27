@@ -95,7 +95,7 @@ router.beforeEach((to, form, next) => {
     //在本地存储获取token
     const hasToken = localStorage.getItem('token');
     //判断是否有个人中心页/用户编辑页  判断是否需要登录权限的页面
-    if (to.path == '/personal'||to.path == '/editPersonal') {
+    if (to.path == '/personal'||to.path == '/editPersonal'||to.path=='/userFollow') {
         //判断本地是否有token值 ,有则正常跳转，没有则返回登录页
         if (hasToken) {
             //正常跳转
