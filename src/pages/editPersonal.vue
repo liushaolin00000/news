@@ -1,6 +1,6 @@
 <template>
   <div>
-    <headerNalmore text='编辑用户'></headerNalmore>
+    <headerNalmore text="编辑用户"></headerNalmore>
     <div class="img">
       <img :src="profile.head_img" alt />
       <!-- 调用文件上传组件 -->
@@ -24,12 +24,22 @@
     <Authcellbar lebal="性别" :text="profile.gender===1?'男':'女'" @click="show3=!show3"></Authcellbar>
     <van-dialog v-model="show3" title="编辑性别" show-cancel-button @confirm="handlegender">
       <!-- 调用组件，这个为性别编辑输入框 -->
-      <van-radio-group v-model="genderCache">
+      <!-- <van-radio-group v-model="genderCache">
         <van-cell-group class="gender">
           <van-cell title="男" clickable @click="genderCache= '1'" class="gender">
             <van-radio slot="right-icon" name="1" />
           </van-cell>
           <van-cell title="女" clickable @click="genderCache= '0'" class="gender">
+            <van-radio slot="right-icon" name="0" />
+          </van-cell>
+        </van-cell-group>
+      </van-radio-group>-->
+      <van-radio-group v-model="genderCache">
+        <van-cell-group class="gender">
+          <van-cell title='男 ♂' clickable @click="genderCache= '1'" class="gender">
+            <van-radio slot="right-icon" name="1" />
+          </van-cell>
+          <van-cell title="女 ♀" clickable @click="genderCache= '0'" class="gender">
             <van-radio slot="right-icon" name="0" />
           </van-cell>
         </van-cell-group>
@@ -263,6 +273,14 @@ div {
       opacity: 0;
     }
   }
+  .gender{
+    display: flex;
+    div.van-cell__title{
+      width:100px;
+      margin-left: 12px;
+    }
+  }
+ 
   // .gender{
   //   height: 10/360*100vw;
   // }
@@ -270,4 +288,10 @@ div {
 // /deep/ .van-dialog__content{
 //    height: 100/360*100vw;
 // }
+// /deep/ {
+//   padding:0;
+// }
+/deep/ .gender div[data-v-d92d1024]{
+   padding:0;
+}
 </style>

@@ -3,23 +3,24 @@
     <!-- //调用头部组件 -->
     <headerNalmore text="我的跟帖"></headerNalmore>
     <!-- 评论的列表 -->
-    <div class="content" >
-      <!-- //拿到后台数据动态渲染到评论页面上 -->
-      <div class="comment-item" v-if="item.parent" v-for="(item,index) in list" :key="index">
-        <!-- 当前的评论回复的评论 -->
-        <div class="parent"  >
-          <div class="time">2019-10-10 10:25</div>
-          <div class="parent-title">回复：火星彩票研究员</div>{{item.parent.content}}
-        </div>
-        <!-- 个人的评论内容 -->
-       <div class="reply">{{item.content}}</div>
+    <!-- 将后台返回的数据渲染到页面上，如果有parent就要渲染parent模块，没有则去掉 -->
+    <div class="comment-item" v-for="(item,index) in list"  :key="index">
+      <div class="time">2019-10-10 10:25</div>
+      <!-- 当前的评论 -->
+      <div class="parent" v-if="item.parent">
+        <div class="parent-title">回复：{{item.parent.user.nickname}}</div>
+        <div class="parent-content">{{item.parent.content}}</div>
       </div>
-      
+      <!-- 回复评论内容 -->
+      <div class="content">{{item.content}}</div>
+
       <!-- 原文链接 -->
-      <router-link to="#" class="article-link">
-        <p>原文：《六合彩之白小姐》《六合彩之白小姐》《六合彩之白小姐》《六合彩之白小姐》</p>
-        <span class="iconfont iconjiantou1 youjiantou"></span>
-      </router-link>
+      <div class="acticle-link">
+        <router-link to="#" class="origin">
+          <p>原文：{{item.post.title}}</p>
+          <span class="iconfont iconjiantou1 youjiantou"></span>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -57,34 +58,44 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.content {
-  padding: 0 20px;
+.comment-item {
+  border-bottom: 1px solid #ccc;
+  padding: 20px;
   .time {
-    color: #a1b7d2;
+    font-size: 15px;
+    color: #afafaf;
   }
   .parent {
-    padding: 20px 10px;
+    width: 321/360 * 100vw;
     background: #e4e4e4;
-    color: #939393;
+    padding: 15px 10px;
+    font-size: 15px;
+    color: #afafaf;
     .parent-title {
-      margin-bottom: 12px;
+      padding: 5px 10px;
+    }
+    .parent-content {
+      padding: 5px 10px;
     }
   }
-  .reply {
-    padding: 18px 0;
-  }
-  .article-link {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  .content {
     font-size: 15px;
-    color: #999;
+    padding: 15px 0px;
+  }
+  .origin{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color:#999;
     p {
-      width: 90%;
-      //单行超出只显示一行，并加上三个点结尾
-      overflow: hidden;
-      text-overflow: ellipsis;
       white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      word-break: break-all;
+      // overflow: hidden;
+      // text-overflow: ellipsis;
+      // white-space: nowrap;
     }
   }
 }

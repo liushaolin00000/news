@@ -26,19 +26,19 @@
         finished-text:加载完成后的提示文案
         loading-tex:数据加载完全后的提示文案-->
         <!-- load: 到底部触发的事件 -->
-        <!-- immediate-check 禁止list立即出发onload -->
+        <!--  List 初始化后会触发一次 load 事件，用于加载第一屏的数据，这个特性可以通过immediate-check属性关闭。 -->
         <van-list
-          v-model="loading"
-          :finished="finished"
+          v-model="item.loading"
+          :finished="item.finished"
           finished-text="没有更多的数据了"
           @load="onLoad"
-          :immediate-check="false"
           loading-text="头条君正在努力加载中，请耐心等待~~"
+          :immediate-check="false"
         >
-          <PostCard v-for="(item,index) in posts" :obj="item" :key="index"></PostCard>
+          <PostCard v-for="(item,index) in item.posts" :obj="item" :key="index"></PostCard>
         </van-list>
       </van-tab>
-    </van-tabs>
+    </van-tabs> 
   </div>
 </template>
 
@@ -60,13 +60,13 @@ export default {
       //栏目id
       cid: 999,
       //文章内容数据
-      posts: [],
+      // posts: [],
       // 是否在加载,加载完毕后需要手动变为false
-      loading: false,
+      // loading: false,
       // 是否有更多数据，如果加载完所有的数据，改为true
-      finished: false,
+      // finished: false,
       //分页变量
-      pageIndex: 1,
+      // pageIndex: 1,
       //每页加载的数据条数
       pageSize: 5
     };
@@ -75,24 +75,25 @@ export default {
     //加载下一页的数据
     onLoad() {
       setTimeout(() => {
+        const category = this.categories[this.active];
         //请求文章列表
         this.$axios({
-          url: `/post?category=${this.cid}&pageIndex=${this.pageIndex}&pageSize=${this.pageSize}`
+          url: `/post?category=${this.cid}&pageIndex=${category.pageIndex}&pageSize=${this.pageSize}`
         }).then(res => {
           //获取的结果为十条数据
           const { data } = res.data;
 
           //没有更多的数据了
           if (data.length < this.pageSize) {
-            this.finished = true;
+            category.finished = true;
           }
           //默认赋值给头条的列表
-          this.posts = [...this.posts, ...data];
+          category.posts = [...category.posts, ...data];
 
           //页数加一
-          this.pageIndex++,
-          //告诉onload事件这次的数据加载已经完毕，下次可以继续出发onload
-          this.loading = false;
+          category.pageIndex++,
+            //告诉onload事件这次的数据加载已经完毕，下次可以继续出发onload
+            (category.loading = false);
         });
       }, 4000);
     }
@@ -114,27 +115,37 @@ export default {
     this.$axios(config).then(res => {
       //将获取的栏目列表信息存放起来
       const { data } = res.data;
-      this.categories = data;
-      // console.log(data);
-    });
+      const newData = [];
+      //循环栏目每一项都添加四个独立的属性
+      data.forEach(v => {
+        v.posts = [];
+        v.loading = false;
+        v.finished = false;
+        v.pageIndex = 1;
+        newData.push(v);
+      });
+      //将追加的数据保存到栏目列表
+      this.categories = newData;
+      //分栏请求完成后再请求文章列表
+      this.$axios({
+        url: `/post?category=${this.cid}&pageIndex=${this.categories[this.active].pageIndex}&pageSize=${this.pageSize}`
+      }).then(res => {
+        const { data } = res.data;
+        console.log(data);
+        //默认赋值给头条的列表
+        this.categories[this.active].posts = data;
+        // console.log(this.posts);
 
-    //文章刷新后同时请求文章列表
-    this.$axios({
-      url: `/post?category=${this.cid}&pageIndex=${this.pageIndex}&pageSize=${this.pageSize}`
-    }).then(res => {
-      const { data } = res.data;
-      //默认赋值给头条的列表
-      this.posts = data;
-      console.log(this.posts);
-
-      //页数加一
-      this.pageIndex++;
+        //页数加一
+        this.categories[this.active].pageIndex++;
+      });
     });
   },
   // 监听active变化获取栏目id
   watch: {
     active() {
       this.cid = this.categories[this.active].id;
+      this.onLoad();
     }
   }
 };
