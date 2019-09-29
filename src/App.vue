@@ -32,7 +32,8 @@ html body{
   margin: 0;
   padding: 0;
   outline: none;
-  
+  box-sizing: border-box;
+  vertical-align: middle;
 }
 
 a {

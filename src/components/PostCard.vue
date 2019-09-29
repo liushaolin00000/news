@@ -1,4 +1,5 @@
 <template>
+ <router-link :to='/DetailPages/+obj.id'>
   <div class="total">
     <!-- 当图片小于3或者是文章类型的时候显示以下代码 -->
     <div class="card" v-if="obj.cover.length<3&&obj.type==1">
@@ -50,6 +51,7 @@
       </div>
     </div>
   </div>
+ </router-link>
 </template>
 
 <script>

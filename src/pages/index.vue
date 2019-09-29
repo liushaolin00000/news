@@ -131,7 +131,6 @@ export default {
         url: `/post?category=${this.cid}&pageIndex=${this.categories[this.active].pageIndex}&pageSize=${this.pageSize}`
       }).then(res => {
         const { data } = res.data;
-        console.log(data);
         //默认赋值给头条的列表
         this.categories[this.active].posts = data;
         // console.log(this.posts);

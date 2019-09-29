@@ -41,11 +41,14 @@ import Personal from '@/pages/Personal.vue'
 import EditPersonal from '@/pages/editPersonal.vue'
 //5.导入我的关注的组件
 import UserFollow from '@/pages/userFollow.vue'
-//5.导入我的跟帖的组件
+//6.导入我的跟帖的组件
 import Followup from '@/pages/followup.vue'
-//5.导入头条主页面的组件
+//7.导入头条主页面的组件
 import Index from '@/pages/index.vue'
-
+//8.导入头条详情部分
+import DetailPages from '@/pages/DetailPages.vue'
+//8.导入新闻搜索组件
+import SearchNews  from '@/pages/SearchNews.vue'
 //2.创建路由配置
 const routes = [
     //路由重定向
@@ -84,6 +87,16 @@ const routes = [
      {
         path:'/',
         component: Index
+    },
+     //将头条文章和视屏详情组件和路由关联起来
+     {
+        path:'/DetailPages/:id',
+        component:DetailPages
+    },
+     //将文章搜索和路由关联起来
+     {
+        path:'/SearchNews',
+        component:DetailPages
     },
 ]
 //3.创建对象
