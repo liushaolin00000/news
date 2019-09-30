@@ -207,7 +207,6 @@ export default {
       const { data } = res.data;
       //将后台获取到的数据保存起来
       this.postdetail = data;
-      console.log(this.postdetail);
     });
   }
 };

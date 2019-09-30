@@ -7,10 +7,12 @@
         <span class="iconfont new iconnew"></span>
       </div>
       <!-- 搜索框部分 -->
-      <div class="search">
-        <span class="iconfont iconsearch"></span>
-        <span class="news">搜索新闻</span>
-      </div>
+      <router-link to="SearchNews">
+        <div class="search">
+          <span class="iconfont iconsearch"></span>
+          <span class="news">搜索新闻</span>
+        </div>
+      </router-link>
       <!-- 个人中心组件部分 -->
       <router-link to="/personal">
         <div class="personal">
@@ -38,7 +40,7 @@
           <PostCard v-for="(item,index) in item.posts" :obj="item" :key="index"></PostCard>
         </van-list>
       </van-tab>
-    </van-tabs> 
+    </van-tabs>
   </div>
 </template>
 

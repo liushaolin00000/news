@@ -49,6 +49,8 @@ import Index from '@/pages/index.vue'
 import DetailPages from '@/pages/DetailPages.vue'
 //8.导入新闻搜索组件
 import SearchNews  from '@/pages/SearchNews.vue'
+//9.导入精彩跟帖组件
+import Comment  from '@/pages/comment/Comment.vue'
 //2.创建路由配置
 const routes = [
     //路由重定向
@@ -96,7 +98,12 @@ const routes = [
      //将文章搜索和路由关联起来
      {
         path:'/SearchNews',
-        component:DetailPages
+        component:SearchNews
+    },
+     //将精彩跟帖组件和路由关联起来,并且路由可以动态接收id
+     {
+        path:'/Comment/:id',
+        component:Comment
     },
 ]
 //3.创建对象

@@ -6,15 +6,27 @@
       <!-- 评论输入框 -->
       <!-- 点击写跟帖的时候进行切换  并且另一个输入框获取焦点-->
       <div class="write" @click="handleclick">写跟帖</div>
+
       <div class="threeBtn">
         <!-- 显示评论条数 -->
-        <div class="comment">
-          <span class="commentNum">{{postdetail.comment_length}}</span>
-          <span class="iconfont iconpinglun-"></span>
-        </div>
+        <!-- 点击这个评论按钮跳转到精彩跟帖页面 -->
+        <router-link :to="/Comment/+postdetail.id">
+          <div class="comment">
+            <span class="commentNum">{{postdetail.comment_length}}</span>
+            <span class="iconfont iconpinglun-"></span>
+          </div>
+        </router-link>
         <!-- 收藏按钮 -->
-        <span class="iconfont iconshoucang collect1" @click='handlecollect' v-if="postdetail.has_star==false"></span>
-        <span class="iconfont iconshoucang collect2" @click='handlecollect' v-if="postdetail.has_star==true"></span>
+        <span
+          class="iconfont iconshoucang collect1"
+          @click="handlecollect"
+          v-if="postdetail.has_star==false"
+        ></span>
+        <span
+          class="iconfont iconshoucang collect2"
+          @click="handlecollect"
+          v-if="postdetail.has_star==true"
+        ></span>
         <!-- 分享按钮 -->
         <span class="iconfont iconfenxiang share"></span>
       </div>
@@ -30,21 +42,21 @@
 
 <script>
 export default {
-  props:['postdetail'],
+  props: ["postdetail"],
   data() {
     return {
-      iswrite: false,
+      iswrite: false
     };
   },
-  methods:{
-      handleclick(){
-        this.iswrite=true
-      },
-      //点击收藏按钮的时候发射事件给父组件
-      handlecollect(){
-        this.$emit('click123')
-      }
-  },
+  methods: {
+    handleclick() {
+      this.iswrite = true;
+    },
+    //点击收藏按钮的时候发射事件给父组件
+    handlecollect() {
+      this.$emit("click123");
+    }
+  }
 };
 </script>
 
@@ -87,8 +99,8 @@ export default {
           font-size: 10px;
         }
       }
-      .collect2{
-         background-color: yellow
+      .collect2 {
+        background-color: yellow;
       }
     }
   }
@@ -103,18 +115,18 @@ export default {
       background-color: #d7d7d7;
       border-radius: 10px;
     }
-    .sendbtn{
-        position: absolute;
-        width: 62/360*100vw;
-        height: 26/360*100vw;
-        background: #ff0000;
-        color: #ffffff;
-        text-align: center;
-        line-height: 26px;
-        border-radius: 50px;
-        bottom: 20px;
-        right: 12px;
+    .sendbtn {
+      position: absolute;
+      width: 62/360 * 100vw;
+      height: 26/360 * 100vw;
+      background: #ff0000;
+      color: #ffffff;
+      text-align: center;
+      line-height: 26px;
+      border-radius: 50px;
+      bottom: 20px;
+      right: 12px;
+    }
   }
-}
 }
 </style>
