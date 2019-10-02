@@ -5,7 +5,7 @@
     <div class="footer" v-if="!iswrite">
       <!-- 评论输入框 -->
       <!-- 点击写跟帖的时候进行切换  并且另一个输入框获取焦点-->
-      <div class="write" @click="handleclick">写跟帖</div>
+      <input type="text" placeholder="写跟帖" @focus="handleFocus" class="inputss" />
 
       <div class="threeBtn">
         <!-- 显示评论条数 -->
@@ -31,30 +31,98 @@
         <span class="iconfont iconfenxiang share"></span>
       </div>
     </div>
-    <!-- 点击评论的时候显示此页面上面的页面不显示 -->
-    <div class="send" v-if="iswrite">
+    <!-- 输入评论页脚，这里显示和隐藏必须要用v-show原因是为了获取dom元素 -->
+    <div class="send" v-show="iswrite">
       <!-- 回复框 -->
-      <textarea class="replay" @blur="iswrite=false" ref="replay">回复火星网友</textarea>
-      <div class="sendbtn">发送</div>
+      <textarea
+        class="replay"
+        @blur="handleBlur"
+        placeholder="回复火星网友"
+        v-model="comment"
+        ref="textarea"
+        :autofocus="iswrite"
+        :placeholder="placeholder"
+      ></textarea>
+      <div class="sendbtn" @click="handleSend">发送</div>
     </div>
   </div>
 </template>
 
 <script>
+import { type } from "os";
 export default {
-  props: ["postdetail"],
+  props: ["postdetail", "replyComment"],
   data() {
     return {
-      iswrite: false
+      iswrite: false,
+      comment: "",
+      content: {},
+      placeholder: "写跟帖"
     };
   },
   methods: {
-    handleclick() {
+    //评论的输入框失去焦点
+    handleBlur() {
+      //当失去焦点且没有值的时候切换成小的输入框
+      if (!this.$refs.textarea.value) {
+        this.iswrite = false;
+        //如果有回复的评论，清空回复的评论
+        if (this.replyComment) {
+          this.$emit("handleReply", null);
+          this.placeholder = "写跟帖";
+        }
+      }
+    },
+    handleFocus() {
       this.iswrite = true;
     },
     //点击收藏按钮的时候发射事件给父组件
     handlecollect() {
       this.$emit("click123");
+    },
+    //点击发送按钮发表评论
+    handleSend() {
+      // 如果评论内容为空则不向后台发起请求
+      if (this.comment == "") {
+        return;
+      }
+      //评论的参数
+      var data = {
+        content: this.comment
+      };
+      //如果有回复的评论，加上parent_id
+      if (this.replyComment) {
+        data.parent_id = this.replyComment.id;
+      }
+      this.$axios({
+        url: "/post_comment/" + this.postdetail.id,
+        //添加头信息
+        headers: {
+          Authorization: localStorage.getItem("token")
+        },
+        method: "POST",
+        data
+      }).then(res => {
+        const { message } = res.data;
+        if (message == "评论发布成功") {
+          this.$toast(message);
+          setTimeout(() => {
+            window.location.reload();
+            //发布评论成功后滚动条滚动到页面顶部
+            window.scrollTo(0, 0);
+          }, 3000);
+          //点击发送按钮成功后重新刷新页面将最新评论显示在最上面
+        }
+      });
+    }
+  },
+  watch: {
+    //监听replyComment值的变化
+    replyComment() {
+      if (this.replyComment) {
+        this.iswrite = true;
+        this.placeholder = "@" + this.replyComment.user.nickname;
+      }
     }
   }
 };
@@ -67,7 +135,8 @@ export default {
     padding: 20px;
     justify-content: space-between;
     align-items: center;
-    .write {
+    .write,
+    .inputss {
       width: 181/360 * 100vw;
       height: 31/360 * 100vw;
       padding-left: 15px;

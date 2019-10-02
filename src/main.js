@@ -7,9 +7,13 @@ import {
     Toast
 } from 'vant'
 //引入vant组件库下文件上传的组件
-import { Uploader } from 'vant';
+import {
+    Uploader
+} from 'vant';
 //引入vant组件库下的弹出框组件
-import { Dialog } from 'vant';
+import {
+    Dialog
+} from 'vant';
 //引入axios文件库 引入请求库
 import axios from "axios";
 
@@ -48,9 +52,11 @@ import Index from '@/pages/index.vue'
 //8.导入头条详情部分
 import DetailPages from '@/pages/DetailPages.vue'
 //8.导入新闻搜索组件
-import SearchNews  from '@/pages/SearchNews.vue'
+import SearchNews from '@/pages/SearchNews.vue'
 //9.导入精彩跟帖组件
-import Comment  from '@/pages/comment/Comment.vue'
+import Comment from '@/pages/comment/Comment.vue'
+//10.导入我的收藏组件
+import MyCollect from '@/pages/MyCollect.vue'
 //2.创建路由配置
 const routes = [
     //路由重定向
@@ -72,38 +78,43 @@ const routes = [
     },
     //将编辑用户信息的组件和路由关联起来
     {
-        path:'/editPersonal',
-        component:EditPersonal
+        path: '/editPersonal',
+        component: EditPersonal
     },
-     //将我的关注的组件和路由关联起来
-     {
-        path:'/userFollow',
-        component:UserFollow
+    //将我的关注的组件和路由关联起来
+    {
+        path: '/userFollow',
+        component: UserFollow
     },
-      //将我的跟帖组件和路由关联起来
-      {
-        path:'/followup',
+    //将我的跟帖组件和路由关联起来
+    {
+        path: '/followup',
         component: Followup
     },
-     //将头条主页面组件和路由关联起来
-     {
-        path:'/',
+    //将头条主页面组件和路由关联起来
+    {
+        path: '/',
         component: Index
     },
-     //将头条文章和视屏详情组件和路由关联起来
-     {
-        path:'/DetailPages/:id',
-        component:DetailPages
+    //将头条文章和视屏详情组件和路由关联起来
+    {
+        path: '/DetailPages/:id',
+        component: DetailPages
     },
-     //将文章搜索和路由关联起来
-     {
-        path:'/SearchNews',
-        component:SearchNews
+    //将文章搜索和路由关联起来
+    {
+        path: '/SearchNews',
+        component: SearchNews
     },
-     //将精彩跟帖组件和路由关联起来,并且路由可以动态接收id
-     {
-        path:'/Comment/:id',
-        component:Comment
+    //将精彩跟帖组件和路由关联起来,并且路由可以动态接收id
+    {
+        path: '/Comment/:id',
+        component: Comment
+    },
+    //将我的收藏组件和路由关联起来,并且路由可以动态接收id
+    {
+        path: '/MyCollect',
+        component: MyCollect
     },
 ]
 //3.创建对象
@@ -115,7 +126,7 @@ router.beforeEach((to, form, next) => {
     //在本地存储获取token
     const hasToken = localStorage.getItem('token');
     //判断是否有个人中心页/用户编辑页  判断是否需要登录权限的页面
-    if (to.path == '/personal'||to.path == '/editPersonal'||to.path=='/userFollow') {
+    if (to.path == '/personal' || to.path == '/editPersonal' || to.path == '/userFollow') {
         //判断本地是否有token值 ,有则正常跳转，没有则返回登录页
         if (hasToken) {
             //正常跳转
@@ -143,7 +154,9 @@ axios.interceptors.response.use(res => {
     if (message === "用户信息验证失败") {
         //团转到登录页面
         router.push('/login');
-        Toast.fail(message)
+       setTimeout(()=>{
+        Toast.fail('请登录您账号，谢谢')
+       },1000)
     }
     return res
 }, function (err) {

@@ -29,11 +29,17 @@
         @input="handleusername"
         errormessage="您输入的密码格式有误，请重新输入！"
       ></AuthInput>
-      <!-- 提示 -->
-      <p class="tip">
-        没有账号？
-        <router-link to="/register" class="tips">去注册</router-link>
-      </p>
+      <div class="right">
+        <p class="notlogin">
+          <span>不登录</span>
+          <router-link to="/" class="toutiao">去黑马头条首页</router-link>
+        </p>
+        <!-- 提示 -->
+        <p class="tip">
+          没有账号？
+          <router-link to="/register" class="tips">去注册</router-link>
+        </p>
+      </div>
       <!-- //登录按钮 -->
       <AuthButton text="登录" @click="handlesubmit"></AuthButton>
     </div>
@@ -72,7 +78,7 @@ export default {
           localStorage.setItem("token", data.token);
           localStorage.setItem("user_id", data.user.id);
           //跳转到下一页，也就是跳转到首页
-          this.$router.push("/personal");
+          this.$router.push("/");
         }
       });
     }
@@ -111,11 +117,21 @@ export default {
       color: #d81e06;
     }
   }
-  .tip {
+  .right {
     float: right;
-    margin-top: 10px;
-    .tips {
-      color: blue;
+    margin-top: 15px;
+    .tip {
+      margin-top: 10px;
+      height: 20px;
+      .tips {
+        color: blue;
+      }
+    }
+    .notlogin {
+      height: 20px;
+      .toutiao {
+        color: #0000ff;
+      }
     }
   }
 }

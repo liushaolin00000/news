@@ -2,9 +2,8 @@
   <div>
     <!-- 点击返回按钮跳到头条首页 -->
     <div class="push">
-        <span class="iconfont iconjiantou" @click="$router.push('/')">跳转到首页</span>
-       
-      </div>
+      <span class="iconfont iconjiantou" @click="$router.push('/')">跳转到首页</span>
+    </div>
     <!-- 将后台返回的数据动态渲染到页面上 -->
     <div class="head" @click="handleEdit">
       <!-- $axios.defaults.baseURL读取axios的服务器路径 -->
@@ -25,8 +24,10 @@
       <router-link to="/followup">
         <Authcellbar lebal="我的跟帖" text="跟帖/回复"></Authcellbar>
       </router-link>
-      <Authcellbar lebal="我的收藏" text="文章/视频"></Authcellbar>
-      <Authcellbar lebal="退出" @click="handleLogout"></Authcellbar>
+      <router-link to="/MyCollect">
+        <Authcellbar lebal="我的收藏" text="文章/视频"></Authcellbar>
+        <Authcellbar lebal="退出" @click="handleLogout"></Authcellbar>
+      </router-link>
     </div>
   </div>
 </template>
@@ -62,7 +63,6 @@ export default {
   },
   //用户详情页面加载完毕后执行以下代码
   mounted() {
-    
     //请求个人资料接口
     this.$axios({
       url: "/user/" + localStorage.getItem("user_id"),
@@ -91,14 +91,14 @@ export default {
 <style lang='less' scoped>
 div {
   background-color: #f2f2f2;
-  .push{
-     padding:15px;
+  .push {
+    padding: 15px;
   }
   .head {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px  20px 40px 20px;
+    padding: 20px 20px 40px 20px;
     border-bottom: 5px solid #e4e4e4;
     img {
       width: 70/360 * 100vw;

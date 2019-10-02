@@ -196,17 +196,20 @@ export default {
   // 详情页面一加载完毕就发起获取文章后台的请求
   mounted() {
     const id = this.$route.params.id;
-    // console.log(id)
-    this.$axios({
-      url: "/post/" + id,
-      //添加头信息
-      headers: {
-        Authorization: localStorage.getItem("token")
-      }
-    }).then(res => {
+    const config ={
+       url: "/post/" + id
+    }
+    //判断本地是否有token，有则在发起请求的时候加上，没有则不加
+    if(localStorage.getItem('token')){
+       config.headers={
+         Authorization:localStorage.getItem('token')
+       }
+    }
+    this.$axios(config).then(res => {
       const { data } = res.data;
       //将后台获取到的数据保存起来
       this.postdetail = data;
+      console.log(data)
     });
   }
 };
