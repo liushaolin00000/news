@@ -1,12 +1,14 @@
 <template>
-<div>
+
    <div>
      <!-- <router-link to='/login'>点击登录</router-link> -->
      <!-- //组件占位符 -->
+     <!-- 保存组件状态或者避免组件重新渲染 -->
+     <keep-alive include="index,search">
      <router-view></router-view>
+     </keep-alive>
    </div>
   
- </div>
  
 </template>
 

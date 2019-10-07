@@ -9,7 +9,7 @@
         <div class="auther"></div>
         <p class="post-info">
           <span>{{obj.user.nickname}}</span>
-          <span>{{obj.comment_length}} 跟帖</span>
+          <span>{{obj.comment_length}}跟帖</span>
         </p>
       </div>
       <!-- //右侧的图片 -->

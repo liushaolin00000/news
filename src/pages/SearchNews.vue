@@ -40,6 +40,7 @@ export default {
   components:{
      PostCard 
   },
+  name:'search',
   data() {
     return {
       value: "",
@@ -92,6 +93,20 @@ export default {
         });
       }, 3000);
     }
+  },
+  //组件内的路由守卫，判断如果是首页进入到搜索页面的，清空页面的缓存数据
+  beforeRouteEnter(to,from,next){
+     if(from.path === '/'){
+       //不能获取实例对象，需要在next回调函数中获取
+       next(vm=>{
+         //vm就是实例对象
+         vm.searchres = [];
+         vm.value = '';
+       })
+     }else{
+       //如果不是从首页来的就照旧执行就可以了
+       next()
+     }
   }
 };
 </script>

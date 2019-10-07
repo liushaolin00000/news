@@ -38,7 +38,11 @@
           :immediate-check="false"
         >
           <PostCard v-for="(item,index) in item.posts" :obj="item" :key="index"></PostCard>
-        </van-list>
+        </van-list> 
+        <!-- //加载组件，自定义颜色 -->
+        <van-loading type="spinner" color="red" style='margin-top:20px;'  vertical v-if='item.posts.length===0&&!item.finished'>
+        加载中，请稍后
+       </van-loading>
       </van-tab>
     </van-tabs>
   </div>
@@ -52,6 +56,8 @@ export default {
   components: {
     PostCard
   },
+  //为了匹配缓存使用
+  name:'index',
   data() {
     return {
       // 当前默认的栏目, 没有登录应该0，有登录等于1, 最终的效果为了默认显示头条
@@ -70,10 +76,11 @@ export default {
       //分页变量
       // pageIndex: 1,
       //每页加载的数据条数
-      pageSize: 5
-    };
+      pageSize:5,
+    }
   },
-  methods: {
+
+methods: {
     //加载下一页的数据
     onLoad() {
       setTimeout(() => {
@@ -84,18 +91,19 @@ export default {
         }).then(res => {
           //获取的结果为十条数据
           const { data } = res.data;
-
+          //告诉onload事件这次的数据加载已经完毕，下次可以继续出发onload
+            category.loading = false;
           //没有更多的数据了
           if (data.length < this.pageSize) {
             category.finished = true;
           }
           //默认赋值给头条的列表
           category.posts = [...category.posts, ...data];
-
+ 
           //页数加一
           category.pageIndex++,
-            //告诉onload事件这次的数据加载已经完毕，下次可以继续出发onload
-            (category.loading = false);
+            
+            console.log(category)
         });
       }, 4000);
     }
