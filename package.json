@@ -30,7 +30,7 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "optimization": "0.0.1",
     "path": "^0.12.7",
     "vant": "^2.2.2",
